@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Addon</title>
+    <title>Download Addon - Guloso Craft</title>
     <style>
         * {
             margin: 0;
@@ -18,9 +18,9 @@
             justify-content: space-between;
             align-items: center;
             font-family: Arial, sans-serif;
-            /* Detecta a preferência do celular (Modo Claro vs Escuro) */
             background-color: #ffffff;
             color: #333333;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -33,11 +33,11 @@
         /* Faixas Superior e Inferior */
         .faixa-lilas {
             width: 100%;
-            height: 60px;
+            min-height: 60px;
             background-color: #c8a2c8; /* Lilás */
             display: flex;
             align-items: center;
-            padding: 0 15px;
+            padding: 10px 15px;
         }
 
         .header {
@@ -48,6 +48,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .header-content span {
@@ -73,6 +74,17 @@
             text-align: center;
         }
 
+        /* Imagem de Showcase */
+        .showcase-img {
+            width: 100%;
+            max-width: 300px; /* Tamanho máximo para não ficar gigante no PC */
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px; /* Espaço entre a imagem e o botão */
+            object-fit: cover;
+        }
+
         /* Botão de Download */
         .btn-download {
             background-color: #800080; /* Roxo */
@@ -86,7 +98,7 @@
             text-decoration: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             transition: transform 0.2s, background-color 0.2s;
-            margin-bottom: 15px; /* Espaço entre o botão e o aviso */
+            margin-bottom: 20px;
         }
 
         .btn-download:hover {
@@ -99,14 +111,13 @@
 
         /* Aviso abaixo do botão */
         .aviso {
-            color: #000000; /* Preto no modo claro */
-            opacity: 0.45;    /* 45% de opacidade */
+            color: #000000;
+            opacity: 0.5;
             font-size: 13px;
-            max-width: 300px;
-            line-height: 1.4;
+            max-width: 320px;
+            line-height: 1.5;
         }
 
-        /* Ajusta o aviso para branco com 45% de opacidade no modo escuro para ficar legível */
         @media (prefers-color-scheme: dark) {
             .aviso {
                 color: #ffffff;
@@ -119,17 +130,20 @@
     <!-- Faixa Superior -->
     <header class="faixa-lilas header">
         <div class="header-content">
-            <span>DOWNLOAD DO ADDON feito por KauzinhMagoh13 / Kraosz</span>
-            <img src="iconMine.png" alt="Icone Minecraft" onerror="this.src='iconMine.jpg';">
+            <span>DOWNLOAD DO ADDON por KauzinhMagoh13 / Kraosz</span>
+            <img src="iconMine.png" alt="Ícone do Minecraft" onerror="this.src='iconMine.jpg';">
         </div>
     </header>
 
     <!-- Centro da Página -->
     <main>
+        <!-- Imagem Showcase inserida aqui -->
+        <img src="Showcase.png" alt="Showcase do Addon Guloso Craft" class="showcase-img">
+
         <a href="content.mcaddon" download class="btn-download">
             guloso craft 1.4.6
         </a>
-        <p class="aviso">AVISO: o arquivo do addon será baixado como mcaddon direto ou seja, não é nescessário mudar o zip, Então apenas inicie o arquivo com o Minecraft pelos os arquivos de download ou por Zarchiver</p>
+        <p class="aviso"><strong>AVISO:</strong> O arquivo do addon será baixado diretamente em formato .mcaddon. Não é necessário alterar para .zip; basta iniciá-lo com o Minecraft pelos downloads ou gerenciadores de arquivos como o ZArchiver.</p>
     </main>
 
     <!-- Faixa Inferior -->
