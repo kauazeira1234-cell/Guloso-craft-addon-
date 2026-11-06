@@ -11,6 +11,13 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --faixa-bg: #c8a2c8;
+            --faixa-text: #2b1b2b;
+            --btn-bg: #800080;
+            --btn-hover: #6a006a;
+        }
+
         body {
             min-height: 100vh;
             display: flex;
@@ -34,10 +41,11 @@
         .faixa-lilas {
             width: 100%;
             min-height: 60px;
-            background-color: #c8a2c8; /* Lilás */
+            background-color: var(--faixa-bg);
             display: flex;
             align-items: center;
             padding: 10px 15px;
+            transition: background-color 0.3s;
         }
 
         .header {
@@ -54,7 +62,7 @@
         .header-content span {
             font-size: 14px;
             font-weight: bold;
-            color: #2b1b2b;
+            color: var(--faixa-text);
         }
 
         .header-content img {
@@ -77,17 +85,17 @@
         /* Imagem de Showcase */
         .showcase-img {
             width: 100%;
-            max-width: 300px; /* Tamanho máximo para não ficar gigante no PC */
+            max-width: 300px;
             height: auto;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px; /* Espaço entre a imagem e o botão */
+            margin-bottom: 20px;
             object-fit: cover;
         }
 
         /* Botão de Download */
         .btn-download {
-            background-color: #800080; /* Roxo */
+            background-color: var(--btn-bg);
             color: #ffffff;
             padding: 15px 30px;
             font-size: 18px;
@@ -97,12 +105,12 @@
             cursor: pointer;
             text-decoration: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, background-color 0.2s;
+            transition: transform 0.2s, background-color 0.3s;
             margin-bottom: 20px;
         }
 
         .btn-download:hover {
-            background-color: #6a006a;
+            background-color: var(--btn-hover);
         }
 
         .btn-download:active {
@@ -123,6 +131,89 @@
                 color: #ffffff;
             }
         }
+
+        /* Botão de Menu Flutuante (Canto Central Direito) */
+        .menu-flutuante {
+            position: fixed;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .btn-menu {
+            background-color: var(--btn-bg);
+            color: #ffffff;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s, transform 0.2s, background-color var(--btn-bg);
+        }
+
+        .btn-menu:hover {
+            background-color: var(--btn-hover);
+            transform: scale(1.05);
+        }
+
+        /* Caixa de Opções do Menu */
+        .menu-opcoes {
+            display: none;
+            position: absolute;
+            right: 55px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            width: 170px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .menu-opcoes {
+                background-color: #2a2a2a;
+                border-color: #444;
+            }
+        }
+
+        .menu-opcoes.ativo {
+            display: block;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: background 0.2s;
+            color: inherit;
+            background: none;
+            border: none;
+            width: 100%;
+        }
+
+        .menu-opcoes.ativo .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .menu-item:hover {
+                background-color: rgba(255,255,255,0.05);
+            }
+        }
     </style>
 </head>
 <body>
@@ -135,19 +226,146 @@
         </div>
     </header>
 
-    <!-- Centro da Página -->
-    <main>
-        <!-- Imagem Showcase inserida aqui -->
-        <img src="Showcase.png" alt="Showcase do Addon Guloso Craft" class="showcase-img">
+    <!-- Menu Flutuante Direito -->
+    <div class="menu-flutuante">
+        <button class="btn-menu" id="btnMenu" title="Abrir Menu">☰</button>
+        <div class="menu-opcoes" id="menuOpcoes">
+            <button class="menu-item" onclick="mudarPagina('principal')">Guloso Craft</button>
+            <button class="menu-item" onclick="mudarPagina('radioativo')">Addon Radioativo</button>
+            <button class="menu-item" onclick="mudarPagina('armadura')">Addon Armadura</button>
+        </div>
+    </div>
 
-        <a href="content.mcaddon" download class="btn-download">
-            guloso craft 1.4.6
+    <!-- Centro da Página (Conteúdo Dinâmico) -->
+    <main>
+        <img id="showcaseImg" src="Showcase.png" alt="Showcase do Addon" class="showcase-img">
+
+        <a id="downloadBtn" href="#" download class="btn-download">
+            Carregando...
         </a>
+        
+        <!-- Aviso padrão mantido em todas as páginas -->
         <p class="aviso"><strong>AVISO:</strong> O arquivo do addon será baixado diretamente em formato .mcaddon. Não é necessário alterar para .zip; basta iniciá-lo com o Minecraft pelos downloads ou gerenciadores de arquivos como o ZArchiver.</p>
     </main>
 
     <!-- Faixa Inferior -->
     <footer class="faixa-lilas"></footer>
 
+    <script>
+        // Abrir/Fechar menu flutuante
+        const btnMenu = document.getElementById('btnMenu');
+        const menuOpcoes = document.getElementById('menuOpcoes');
+
+        btnMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuOpcoes.classList.toggle('ativo');
+        });
+
+        // Fechar menu ao clicar fora
+        window.addEventListener('click', () => {
+            menuOpcoes.classList.remove('ativo');
+        });
+
+        // Configurações das páginas
+        const paginas = {
+            principal: {
+                pasta: '1',
+                nomeBotaoPadrao: 'guloso craft 1.4.6',
+                imgShowcase: 'Showcase.png',
+                tema: {
+                    faixaBg: '#c8a2c8', // Lilás
+                    faixaText: '#2b1b2b',
+                    btnBg: '#800080',   // Roxo
+                    btnHover: '#6a006a'
+                }
+            },
+            radioativo: {
+                pasta: '2',
+                nomeBotaoPadrao: 'nuclear things 1.2',
+                imgShowcase: 'ShowcaseRadioativo.png',
+                tema: {
+                    faixaBg: '#ffb366', // Laranja claro
+                    faixaText: '#3b1f00',
+                    btnBg: '#ff6600',   // Laranja forte
+                    btnHover: '#e55b00'
+                }
+            },
+            armadura: {
+                pasta: '3',
+                nomeBotaoPadrao: 'more armors',
+                imgShowcase: 'ShowcaseArmadura.png',
+                tema: {
+                    faixaBg: '#b3d9ff', // Azul bebê
+                    faixaText: '#002b4d',
+                    btnBg: '#0080ff',   // Azul normal
+                    btnHover: '#0066cc'
+                }
+            }
+        };
+
+        function aplicarTema(tema) {
+            const root = document.documentElement;
+            root.style.setProperty('--faixa-bg', tema.faixaBg);
+            root.style.setProperty('--faixa-text', tema.faixaText);
+            root.style.setProperty('--btn-bg', tema.btnBg);
+            root.style.setProperty('--btn-hover', tema.btnHover);
+        }
+
+        function mudarPagina(tipo) {
+            const config = paginas[tipo];
+            aplicarTema(config.tema);
+
+            // Atualiza imagem de showcase
+            const img = document.getElementById('showcaseImg');
+            img.src = config.imgShowcase;
+            img.onerror = function() { this.src = 'Showcase.png'; }; // Fallback caso não ache a imagem específica
+
+            const btn = document.getElementById('downloadBtn');
+            btn.textContent = config.nomeBotaoPadrao;
+
+            // Define o link do arquivo dentro da pasta correspondente (1, 2 ou 3)
+            const pasta = config.pasta;
+            btn.href = `${pasta}/content.mcaddon`;
+
+            // Testa e tenta achar o arquivo correto dentro da pasta
+            const arquivosParaTestar = [
+                `${pasta}/content.mcaddon`,
+                `${pasta}/1.mcaddon`,
+                `${pasta}/${config.nomeBotaoPadrao.toLowerCase().replace(/\s+/g, '-')}.mcaddon`
+            ];
+
+            testarCaminhos(arquivosParaTestar, 0, (caminhoValido) => {
+                if (caminhoValido) {
+                    btn.href = caminhoValido;
+                }
+            });
+
+            menuOpcoes.classList.remove('ativo');
+        }
+
+        function testarCaminhos(caminhos, index, callback) {
+            if (index >= caminhos.length) {
+                callback(null);
+                return;
+            }
+            const xhr = new XMLHttpRequest();
+            xhr.open('HEAD', caminhos[index], true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200 || xhr.status === 0) {
+                        callback(caminhos[index]);
+                    } else {
+                        testarCaminhos(caminhos, index + 1, callback);
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        // Inicia na página principal ao carregar
+        window.addEventListener('DOMContentLoaded', () => {
+            mudarPagina('principal');
+        });
+    </script>
 </body>
 </html>
