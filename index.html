@@ -266,41 +266,38 @@
             menuOpcoes.classList.remove('ativo');
         });
 
-        // Configurações das páginas
+        // Configurações exatas das páginas e caminhos dos arquivos
         const paginas = {
             principal: {
-                pasta: '1',
                 nomeBotao: 'guloso craft 1.4.6',
-                arquivoNome: 'guloso-craft-1.4.6.mcaddon', // Nome exato do arquivo na pasta 1
+                arquivoCaminho: '1/guloso-craft-1.4.6.mcaddon',
                 imgShowcase: 'Showcase.png',
                 tema: {
-                    faixaBg: '#c8a2c8', // Lilás
+                    faixaBg: '#c8a2c8',
                     faixaText: '#2b1b2b',
-                    btnBg: '#800080',   // Roxo
+                    btnBg: '#800080',
                     btnHover: '#6a006a'
                 }
             },
             radioativo: {
-                pasta: '2',
                 nomeBotao: 'nuclear things 1.2',
-                arquivoNome: 'nuclear-things-1.2.mcaddon', // Nome exato do arquivo na pasta 2
+                arquivoCaminho: '2/nuclear-things-1.2.mcaddon',
                 imgShowcase: 'ShowcaseRadioativo.png',
                 tema: {
-                    faixaBg: '#ffb366', // Laranja claro
+                    faixaBg: '#ffb366',
                     faixaText: '#3b1f00',
-                    btnBg: '#ff6600',   // Laranja forte
+                    btnBg: '#ff6600',
                     btnHover: '#e55b00'
                 }
             },
             armadura: {
-                pasta: '3',
                 nomeBotao: 'more armors',
-                arquivoNome: 'more-armors.mcaddon', // Nome exato do arquivo na pasta 3
+                arquivoCaminho: '3/more-armors.mcaddon',
                 imgShowcase: 'ShowcaseArmadura.png',
                 tema: {
-                    faixaBg: '#b3d9ff', // Azul bebê
+                    faixaBg: '#b3d9ff',
                     faixaText: '#002b4d',
-                    btnBg: '#0080ff',   // Azul normal
+                    btnBg: '#0080ff',
                     btnHover: '#0066cc'
                 }
             }
@@ -323,12 +320,10 @@
             img.src = config.imgShowcase;
             img.onerror = function() { this.src = 'Showcase.png'; }; 
 
-            // Atualiza o texto do botão
+            // Atualiza o texto do botão e o link exato do arquivo
             const btn = document.getElementById('downloadBtn');
             btn.textContent = config.nomeBotao;
-
-            // Aponta diretamente para a pasta correta (1, 2 ou 3) com o nome do arquivo configurado
-            btn.href = `${config.pasta}/${config.arquivoNome}`;
+            btn.href = config.arquivoCaminho;
 
             menuOpcoes.classList.remove('ativo');
         }
